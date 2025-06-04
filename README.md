@@ -7,7 +7,7 @@ https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
 *****************************************************************************************************************************
 TIV Pi Hub and Reporting (PiHR like FIHR) Installation Process for Windows: 
-NOTE: Make sure you're using nodejs v10.15.*.  v10.19.0 did not work correctly.
+NOTE: Make sure you're using **Node.js 18 or newer**.
 *****************************************************************************************************************************
 Install Better-sqlite3
     npm install better-sqlite3-helper
@@ -63,6 +63,16 @@ Last step your normal git flow:
 git add file.psd
 git commit -m "Add design file"
 git push origin master
+
+## Running tests
+
+Run the tests after installing dependencies with `npm install`:
+
+```bash
+npm test
+```
+
+The test suite uses Mocha and looks for files in the `test` folder.
 
 
 ******************************************************************************************************************************
