@@ -1,4 +1,8 @@
 # PiWindows
+This fork modernises the application to use the latest tooling.  UI components
+now leverage **MUI** and database access can be handled via **Sequelize** with a
+SQLite backend.  Ensure Node.js 18 or newer is installed before continuing.
+
 https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
 *****************************************************************************************************************************

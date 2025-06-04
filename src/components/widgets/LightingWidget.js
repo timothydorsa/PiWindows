@@ -1,6 +1,9 @@
 import React from "react";
 import Button from "./Button";
-import {genAPICall} from "./API";
+import { genAPICall } from "./API";
+import Slider from "@mui/material/Slider";
+import IconButton from "@mui/material/IconButton";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
 export default class LightingWidget extends React.Component {
     constructor(props){
         super(props);
@@ -11,8 +14,8 @@ export default class LightingWidget extends React.Component {
     componentDidMount(){
         // this.props.socket.emit("create-new-device", {id: this.props.id, name: this.props.name, type: this.props.type});
     } 
-    changeLevel(dim, event){
-        var value = event.target.value;
+    changeLevel(dim, event, newValue){
+        var value = typeof newValue === 'number' ? newValue : event.target.value;
         var apiCall = genAPICall(this.props.properties.type, this.props.properties.id, dim.name, [value]);
         this.props.socket.emit("phoenix-api-call",apiCall);
         this.setState({
@@ -53,37 +56,33 @@ export default class LightingWidget extends React.Component {
     }
     
     render(){
-        var onOff = {
-            on: "",
-            off: ""
-        };
-        var dim;
-
-        this.props.functions.forEach((funct)=>{
-            if(funct.widget == "Button"){
-
-                console.log(funct)
-                if(funct.name.includes("on")){
-                    onOff.on = funct;
+        const { on, off, dim } = this.props.functions.reduce(
+            (acc, funct) => {
+                if (funct.widget === "Button") {
+                    if (funct.name.includes("on")) {
+                        acc.on = funct;
+                    } else {
+                        acc.off = funct;
+                    }
+                } else if (funct.widget === "Slider") {
+                    acc.dim = funct;
                 }
-                else{
-                    onOff.off = funct
-                }
-            }
-            else if(funct.widget == "Slider"){
-                dim = funct
-            }
-        })
+                return acc;
+            },
+            { on: "", off: "", dim: null }
+        );
         return(
             <div className="widgetcontainer">
                 <div className="widgetheader">
                     <div className="left">
-                        <div className="button" ><Button onClick={this.toggleLoad.bind(this, onOff.on, onOff.off)} /></div>
+                        <IconButton className="button" onClick={this.toggleLoad.bind(this, on, off)}>
+                            <LightbulbIcon />
+                        </IconButton>
                         <div className="light-name">{this.props.properties.name}</div>
                     </div>
                     <div className="light-level" onKeyPress={this.toCertainLevel.bind(this)} contentEditable>{`${this.state.level}%`}</div>
                 </div>
-                <input type="range" class="slider" list="ranges" onChange={this.changeLevel.bind(this, dim)} value={this.state.level}/>
+                <Slider value={this.state.level} onChange={this.changeLevel.bind(this, dim)} />
             </div>
         )
     }
