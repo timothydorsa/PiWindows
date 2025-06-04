@@ -29,15 +29,15 @@ const ATTRIBUTES = {
 export const VantageObjectReader = (file, map)=>{
     var parser = new DOMParser();
     var doc = parser.parseFromString(file, "application/xml");
-    var objects =  doc.getElementsByTagName("Objects")[0];
-    var objectArr = objects.getElementsByTagName("Object");
-    var areas = new Map();
-    var sceneAreas = new Map();
-    var phantomAreas = new Map();
+    const objects =  doc.getElementsByTagName("Objects")[0];
+    const objectArr = objects.getElementsByTagName("Object");
+    const areas = new Map();
+    const sceneAreas = new Map();
+    const phantomAreas = new Map();
     let diagnosticDevices = []
     let devices = [];
-      for(var i = 0; i < objectArr.length; i++){
-        var tagName = objectArr[i].children[0].tagName;
+      for(let i = 0; i < objectArr.length; i++){
+        const tagName = objectArr[i].children[0].tagName;
         let deviceMap = findType(tagName, map);
         let device;
         let diagnosticDevice;
@@ -50,8 +50,8 @@ export const VantageObjectReader = (file, map)=>{
             let coolVid = 0;
             let heatVid = 0;
             let roomVid = 0;
-            for(var j = i; j < objectArr.length; j++){
-              let obj = objectArr[j];
+            for(let j = i; j < objectArr.length; j++){
+              const obj = objectArr[j];
 
               if(obj.children[0].tagName == "Temperature"){
                 let temp = obj.children[0];
@@ -158,16 +158,15 @@ export const VantageObjectReader = (file, map)=>{
             let scenes = objects.getElementsByTagName("Scene");
             let _module;
             try{
-              for(let j = 0; j < scenes.length; j++){              
-                let scene = scenes[j];
+              for (const scene of scenes) {
                 let name = scene.getElementsByTagName("Name")[0].innerHTML;
                 let constants = scene.getElementsByTagName("Initializer")[0].getElementsByTagName("Constant");
                 let tasks = [];
-                for(let k = 0; k < constants.length; k++){
-                  tasks[k] = constants[k].innerHTML;
+                for (const constant of constants) {
+                  tasks.push(constant.innerHTML);
                 }
-                if(name.includes(diagnosticDevice.time)){
-                  diagnosticDevice.eventObjects = tasks
+                if (name.includes(diagnosticDevice.time)) {
+                  diagnosticDevice.eventObjects = tasks;
                   break;
                 }
 
@@ -178,9 +177,8 @@ export const VantageObjectReader = (file, map)=>{
             let time = weekly.getElementsByTagName("Time")[0].innerHTML
             let days = [];
 
-            for(let j = 0; j < weekdays.length; j++){
-              let day = weekdays[j].innerHTML
-              days.push(day);
+            for (const dayEl of weekdays) {
+              days.push(dayEl.innerHTML);
             }
             diagnosticDevice.eventInterval = interval;
             diagnosticDevice.eventDays = days;
