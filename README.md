@@ -1,7 +1,18 @@
-# PiWindows
-This fork modernises the application to use the latest tooling.  UI components
-now leverage **MUI** and database access can be handled via **Sequelize** with a
-SQLite backend.  Ensure Node.js 18 or newer is installed before continuing.
+# pi-windows-mui
+This fork, **pi-windows-mui**, modernises the application to use the latest
+tooling. UI components now leverage **MUI** and database access can be handled
+via **Sequelize** with a SQLite backend. Ensure Node.js 18 or newer is installed
+before continuing.
+
+## Getting the code
+
+Clone this repository with your preferred name:
+
+```bash
+git clone <repo-url> pi-windows-mui
+```
+
+Then install dependencies and run the development server as usual.
 
 https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
