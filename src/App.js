@@ -13,12 +13,10 @@ import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import Version from "./components/Version";
 import io from "../node_modules/socket.io-client"
-import toaster from "toasted-notes"
+import NotificationSnackbar from "./components/NotificationSnackbar";
 import './App.css';
 import './assets/css/style-dark.css';
 import './assets/css/font-awesome.min.css';
-import '../node_modules/toasted-notes/src/styles.css';
-//REDUX
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {toScreen,getAreas, getDeviceTypes, addInstance, getFile, addDriver, addDevice, updateSidebar, addEventToFile, changePermissions, getManifest, updateLog, getDeviceMap, isLoading, updateSocket, updateDeviceCount, updateInstanceCount, addUserId, updateProgress} from "./store/actions/index";
@@ -29,9 +27,14 @@ import {BrowserRouter, Redirect, Route} from "react-router-dom";
 class App extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      snackbarOpen: false,
+      snackbarMessage: '',
+      IPAddress: ''
+    }
   }
   
-    componentDidMount(){
+  componentDidMount(){
     window.onbeforeunload = (e)=>{
       this.props.app.socket.emit("close");
       this.props.app.socket.close();
@@ -278,11 +281,11 @@ class App extends Component {
       this.props.toScreen(<Redirect to="/" exact/>)
 
     })
-//toast
     this.props.app.socket.on("notify-event", (event)=>{
-      toaster.notify(event, {
-        position: "top-right"
-      })
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: event
+      });
     })
 
     this.props.app.socket.on("job", (time, job)=>{
@@ -303,6 +306,10 @@ class App extends Component {
     this.props.app.socket.on("to-thread-manager", ()=>{
       this.props.toScreen(<Redirect to="/thread-manager"/>);
     })
+  }
+
+  handleSnackbarClose = () => {
+    this.setState({ snackbarOpen: false });
   }
 
   componentDidUpdate(){
@@ -550,9 +557,14 @@ class App extends Component {
  This software, including all functionality, graphics and user interfaces, is proprietary and owned or exclusively licensed by Totally In View, Inc. The PI&trade; mark is either a trademark or registered trademark owned or exclusively licensed by Totally In View, Inc. © Copyright 2019, all rights reserved. Proprietary information is contained within this demonstration and confidentiality is required in order to access this presentation and the information contained herein. Access is provided for demonstration only.</p>
 						</div>
 					</div>
-				</footer>
+        </footer>
       </div>
       </div>
+      <NotificationSnackbar
+        open={this.state.snackbarOpen}
+        message={this.state.snackbarMessage}
+        onClose={this.handleSnackbarClose}
+      />
       </BrowserRouter>
     );
   }

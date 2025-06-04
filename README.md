@@ -14,6 +14,11 @@ git clone <repo-url> pi-windows-mui
 
 Then install dependencies and run the development server as usual.
 
+Socket notifications are now displayed with a MUI `Snackbar` component
+(`src/components/NotificationSnackbar.js`).
+A basic Sequelize setup with a sample `User` model lives under
+`src/db/models`.
+
 https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
 *****************************************************************************************************************************

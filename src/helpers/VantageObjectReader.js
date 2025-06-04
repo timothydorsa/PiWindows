@@ -133,20 +133,17 @@ export const VantageObjectReader = (file, map)=>{
             diagnosticDevice.params = [];
             let paramtables = task.getElementsByTagName("ParamTable");
             try{
-              for(var k = 0; k < paramtables.length; k++){
-                let paramtable = paramtables[k];
+              for (const paramtable of paramtables) {
                 let params = paramtable.getElementsByTagName("Param");
-                for(var param = 0; param < params.length; param++){
-                  let paramInfo = params[param];
-                  if(paramInfo.getAttribute("Fixed") != "true"){
+                for (const paramInfo of params) {
+                  if (paramInfo.getAttribute("Fixed") != "true") {
                     let paramArr = paramInfo.getElementsByTagName("array");
-                    if(paramArr.length > 0){
-                      for(var val = 0; val < paramArr.length; val++){
-                        let parameterValues = paramArr[val].children
-                        for(var child = 0; child < parameterValues.length; child++){
-                          diagnosticDevice.params.push(parameterValues[child].innerHTML);
+                    if (paramArr.length > 0) {
+                      for (const arr of paramArr) {
+                        let parameterValues = arr.children;
+                        for (const child of parameterValues) {
+                          diagnosticDevice.params.push(child.innerHTML);
                         }
-                        
                       }
                     }
                   }
