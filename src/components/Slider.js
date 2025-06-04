@@ -1,102 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default class Slider extends React.Component {
-    constructor(props){
-        super(props);
+export default function Slider({ value = 50, min = 20, max = 80, rangeMin = 0, rangeMax = 100, change }) {
+  const [current, setCurrent] = useState(value);
+  const [minVal, setMinVal] = useState(min);
+  const [maxVal, setMaxVal] = useState(max);
 
-        this.state = {
-            ...this.props
-        }
+  const handleSliderChange = e => {
+    const val = Number(e.target.value);
+    if (val >= minVal && val <= maxVal) {
+      change && change(val);
+      setCurrent(val);
     }
-    
+  };
 
-    handleSliderChange(event){
-            if(event.target.value >= this.state.min && event.target.value <= this.state.max){
-                this.props.change(event.target.value)
-                this.setState({
-                    value: event.target.value
-                })
-            }
+  const changeMinimum = e => {
+    const val = Number(e.target.value);
+    if (val > current && val > maxVal) {
+      setMinVal(val);
+      setCurrent(val);
+      setMaxVal(val + 1);
+    } else if (val > current) {
+      setMinVal(val);
+      setCurrent(val);
+    } else {
+      setMinVal(val);
     }
+  };
 
-    changeMinimum(event){
-        if(Number(event.target.value ) > this.state.value && Number(event.target.value) > this.state.max){
-            this.setState({
-                min: Number(event.target.value),
-                value: Number(event.target.value),
-                max: Number(event.target.value)+1
-            })
-        }
-        else if(Number(event.target.value) > this.state.value){
-            this.setState({
-                min: Number(event.target.value),
-                value: Number(event.target.value),
-            })
-        }
-        else{
-            this.setState({
-                min: Number(event.target.value)
-            })
-        }
+  const changeMaximum = e => {
+    const val = Number(e.target.value);
+    if (val < current && val < minVal) {
+      setMaxVal(val);
+      setMinVal(val - 1);
+      setCurrent(val);
+    } else if (val < current) {
+      setMaxVal(val);
+      setCurrent(val);
+    } else {
+      setMaxVal(val);
     }
+  };
 
-    changeMaximum(event){
-        if(Number(event.target.value) < this.state.value && Number(event.target.value) < this.state.min){
-                this.setState({
-                    max: Number(event.target.value),
-                    min: Number(event.target.value)-1,
-                    value: Number(event.target.value)
-            });
-        }
-        else if(Number(event.target.value) < this.state.value){
-            this.setState({
-                max: Number(event.target.value),
-                value: Number(event.target.value)
-            });
-        }
-        else{
-            this.setState({
-                max: Number(event.target.value)
-            }); 
-        }
-    }
+  const changeValue = e => {
+    setCurrent(Number(e.target.value));
+  };
 
-    changeValue(event){
-        this.setState({
-            value: Number(event.target.value)
-        })
-    }
+  const ranges = [];
+  ranges.push(<option key={rangeMin} value={`${rangeMin}`} />);
+  let i = rangeMin;
+  while (i < rangeMax) {
+    i += 10;
+    ranges.push(<option key={i} value={`${i}`} label={`${i}`} />);
+  }
 
-    render(){
-        var ranges = [];
-        ranges.push(<option value={`${this.state.rangeMin}`} />)
-        var i = this.state.rangeMin;
-        while(i < this.state.rangeMax){
-            i = i+10;
-            ranges.push(<option value={`${i}`} label={`${i}`} />)
-        }
-        return(
-            <div className="slidercontainer">
-                <input onChange={this.handleSliderChange.bind(this)}type="range" value={this.state.value} class="slider" list="ranges"/>
-                <div className="slider-inputs">
-                <input type="number" className="slider-input" value={this.state.min} onChange={this.changeMinimum.bind(this)}/>
-                <input type="number" className="slider-input" value={this.state.value} onChange={this.changeValue.bind(this)}/>
-                <input type="number" className="slider-input" value={this.state.max} onChange={this.changeMaximum.bind(this)}/>
-                </div>
-                <datalist id="ranges">
-                    {ranges}
-                </datalist>
-
-            </div>
-        )
-    }
-}
-
-
-Slider.defaultProps = {
-    value: 50,
-    min: 20,
-    max: 80,
-    rangeMin:0,
-    rangeMax: 100
+  return (
+    <div className="slidercontainer">
+      <input onChange={handleSliderChange} type="range" value={current} className="slider" list="ranges" />
+      <div className="slider-inputs">
+        <input type="number" className="slider-input" value={minVal} onChange={changeMinimum} />
+        <input type="number" className="slider-input" value={current} onChange={changeValue} />
+        <input type="number" className="slider-input" value={maxVal} onChange={changeMaximum} />
+      </div>
+      <datalist id="ranges">{ranges}</datalist>
+    </div>
+  );
 }

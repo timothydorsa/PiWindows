@@ -19,6 +19,12 @@ Socket notifications are now displayed with a MUI `Snackbar` component
 A basic Sequelize setup with a sample `User` model lives under
 `src/db/models`.
 
+Seed the database with sample data using:
+
+```bash
+npm run seed
+```
+
 https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
 *****************************************************************************************************************************

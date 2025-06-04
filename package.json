@@ -8,10 +8,10 @@
   "author": "TIV",
   "description": "PI 0.11.0",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.4.0",
     "better-sqlite3": "^5.4.1",
     "bufferutil": "^4.0.1",
-    "chart.js": "^2.7.3",
+    "chart.js": "^4.3.0",
     "csv": "^5.1.1",
     "electron-is-dev": "^1.0.1",
     "fibers": "^4.0.2",
@@ -23,7 +23,7 @@
     "node-schedule": "^1.3.2",
     "query-string": "^6.8.2",
     "react": "18.2.0",
-    "react-chartjs-2": "^2.7.4",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "@mui/material": "5.13.0",
     "@mui/icons-material": "5.13.0",
@@ -80,7 +80,8 @@
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "npm run build",
     "postelectron-pack": "npm run rebuild better-sqlite3",
-    "scrape": "nodemon pdf-scraper.js"
+    "scrape": "nodemon pdf-scraper.js",
+    "seed": "node src/db/seed.js"
   },
   "devDependencies": {
     "chai": "^4.2.0",
