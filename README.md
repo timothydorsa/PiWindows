@@ -1,4 +1,7 @@
 # PiWindows
+
+This repo now contains a separated `backend` Node application using Express and Sequelize. Run `npm install` inside `backend` and `npm start` to launch the API. The frontend React code remains under `src`.
+
 https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
 
