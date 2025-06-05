@@ -2,6 +2,18 @@
 
 This repo now contains a separated `backend` Node application using Express and Sequelize. Run `npm install` inside `backend` and `npm start` to launch the API. The frontend React code remains under `src`.
 
+## Running the Backend
+
+```
+cd backend
+npm install
+npm start
+```
+
+The backend will start on port `4000` and expose `/api` routes such as `/api/users`.
+
+The front end can be started separately with the usual React/Electron workflow.
+
 https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md
 
 

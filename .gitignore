@@ -2,3 +2,5 @@ node_modules
 build
 dist
 documents
+backend/node_modules
+backend/database.sqlite
